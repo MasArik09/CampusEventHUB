@@ -452,7 +452,7 @@ Event utama:
 
 ## Security
 
-* JWT Authentication
+* User Authentication
 * Password Hashing
 * RBAC
 

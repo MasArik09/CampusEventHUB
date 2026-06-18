@@ -91,7 +91,7 @@ Mengelola data pengguna sistem.
 
 * Register User
 * Login User
-* JWT Authentication
+* User Authentication
 * Profile Management
 * Role Management
 * User Information
@@ -501,7 +501,7 @@ Total Container:
 
 ## Security
 
-* JWT Authentication
+* User Authentication
 * Password Hashing
 * Role Based Access Control
 
