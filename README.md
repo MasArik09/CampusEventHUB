@@ -370,10 +370,10 @@ Proyek ini dikembangkan oleh tim beranggotakan **4 orang** dengan pembagian tang
 
 | Member | Service | Database |
 | :--- | :--- | :--- |
-| **Member 1** | User Service | `campus_eventhub_users` |
-| **Member 2** | Event Service | `campus_eventhub_events` |
-| **Member 3** | Registration Service | `campus_eventhub_registrations` |
-| **Member 4** | Notification & Certificate Service | `campus_eventhub_notifications` |
+| **Ilham Hilmi** | User Service | `campus_eventhub_users` |
+| **Abdulloh Wahab** | Event Service | `campus_eventhub_events` |
+| **Ghazi Rayshafiq** | Registration Service | `campus_eventhub_registrations` |
+| **Naufal Syamdani** | Notification & Certificate Service | `campus_eventhub_notifications` |
 | **All Members** | Frontend, Docker Deployment, GraphQL Integration, Testing, Documentation | — |
 
 ---
