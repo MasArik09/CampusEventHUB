@@ -493,7 +493,7 @@ Hasura Container
 
 Authentication:
 
-JWT
+Session / Basic Authentication
 
 Authorization:
 

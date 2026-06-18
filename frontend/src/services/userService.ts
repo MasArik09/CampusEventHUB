@@ -29,7 +29,7 @@ export const userService = {
       });
       if (res.ok) {
         const body = await res.json();
-        // Return matching user or construct from JWT payload
+        // Return matching user or construct from response
         const users = this.getUsers('demo');
         return users.find(u => u.email.toLowerCase() === email.toLowerCase()) || {
           id: 'u_live',

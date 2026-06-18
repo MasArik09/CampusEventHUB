@@ -471,7 +471,7 @@ Menampilkan sertifikat pada dashboard pengguna.
 
 Authentication:
 
-JWT Token
+Session / Basic Authentication
 
 Authorization:
 

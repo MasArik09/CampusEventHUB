@@ -40,13 +40,7 @@ Error Response
 
 Authentication Type:
 
-Bearer Token (JWT)
-
-Header:
-
-```http
-Authorization: Bearer <token>
-```
+Session / Basic Authentication
 
 ---
 
@@ -110,8 +104,7 @@ Response
 
 ```json
 {
-  "success": true,
-  "token": "jwt_token"
+  "success": true
 }
 ```
 
