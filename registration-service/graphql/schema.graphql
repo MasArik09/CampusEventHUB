@@ -1,0 +1,45 @@
+type Registration {
+  id: ID!
+  user_id: Int!
+  event_id: Int!
+  status: String!
+  registered_at: String
+  attendance: Attendance
+  created_at: String
+  updated_at: String
+}
+
+type Attendance {
+  id: ID!
+  registration_id: Int!
+  attendance_status: String!
+  attendance_time: String
+  created_at: String
+  updated_at: String
+}
+
+type Query {
+  "Ambil detail satu registrasi berdasarkan ID."
+  registration(id: ID! @eq): Registration @find
+
+  "Ambil semua registrasi, bisa difilter by user_id."
+  registrations(user_id: Int @eq): [Registration!]! @paginate
+
+  "Ambil semua peserta yang terdaftar di sebuah event."
+  participants(event_id: Int! @eq): [Registration!]! @all
+}
+
+type Mutation {
+  "Daftarkan user ke event."
+  createRegistration(
+    user_id: Int!
+    event_id: Int!
+  ): Registration @create
+
+  "Catat kehadiran peserta."
+  createAttendance(
+    registration_id: Int!
+    attendance_status: String!
+    attendance_time: String!
+  ): Attendance @create
+}

@@ -1,0 +1,68 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+
+    container_name: registration-service-app
+
+    volumes:
+      - .:/var/www
+
+    networks:
+      - registration-network
+
+  nginx:
+    image: nginx:latest
+
+    container_name: registration-service-nginx
+
+    ports:
+      - "8003:80"
+
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    depends_on:
+      - app
+
+    networks:
+      - registration-network
+
+  mysql:
+    image: mysql:8
+
+    container_name: registration-service-mysql
+
+    restart: always
+
+    environment:
+      MYSQL_DATABASE: campus_eventhub_registrations
+      MYSQL_ROOT_PASSWORD: root
+
+    ports:
+      - "3309:3306"
+
+    networks:
+      - registration-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+
+    container_name: registration-service-rabbitmq
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+    networks:
+      - registration-network
+
+networks:
+  registration-network:
