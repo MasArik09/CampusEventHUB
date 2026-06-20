@@ -12,6 +12,7 @@ services:
 
     networks:
       - event-network
+      - campus_eventhub_network
 
   nginx:
     image: nginx:latest
@@ -50,3 +51,6 @@ services:
 
 networks:
   event-network:
+  campus_eventhub_network:
+    external: true
+    name: campus_eventhub_shared_network

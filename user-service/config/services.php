@@ -15,17 +15,17 @@ return [
     */
 
     'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
+        'key' => env('POSTMARK_API_KEY'),
+    ],
+
+    'resend' => [
+        'key' => env('RESEND_API_KEY'),
     ],
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
-
-    'resend' => [
-        'key' => env('RESEND_KEY'),
     ],
 
     'slack' => [
@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'rabbitmq' => [
+        'host' => env('RABBITMQ_HOST', 'rabbitmq'),
+        'port' => env('RABBITMQ_PORT', 5672),
+        'user' => env('RABBITMQ_USER', 'guest'),
+        'password' => env('RABBITMQ_PASSWORD', 'guest'),
+        'exchange' => env('RABBITMQ_EXCHANGE', 'campus_eventhub'),
+        'exchange_type' => env('RABBITMQ_EXCHANGE_TYPE', 'topic'),
+        'queue_user_service' => env('RABBITMQ_QUEUE_USER_SERVICE', 'user_service.certificate_generated'),
+        'routing_key_certificate_generated' => env('RABBITMQ_ROUTING_KEY_CERTIFICATE_GENERATED', 'certificate.generated'),
+    ],
+
 ];
+

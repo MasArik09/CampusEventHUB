@@ -1,0 +1,38 @@
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    roles: [Role!]! @belongsToMany
+    created_at: DateTime
+}
+
+type Role {
+    id: ID!
+    name: String!
+    label: String
+}
+
+type Query {
+    # GET single user (admin only)
+    user(id: ID! @eq): User @find(model: "App\\Models\\User") @guard
+
+    # GET all users (admin only)
+    users: [User!]! @paginate(model: "App\\Models\\User") @guard
+}
+
+type Mutation {
+    # Mutation: Register (TASK_BREAKDOWN.md Member 1 - GraphQL Mutations)
+    registerUser(
+        name: String!
+        email: String!
+        password: String!
+    ): User! @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
+
+    # Mutation: UpdateProfile (TASK_BREAKDOWN.md Member 1 - GraphQL Mutations)
+    updateProfile(
+        name: String
+        email: String
+    ): User! @field(resolver: "App\\GraphQL\\Mutations\\UpdateProfile") @guard
+}
