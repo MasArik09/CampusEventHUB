@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('registration_id')
                 ->constrained('registrations')
                 ->cascadeOnDelete();
-
             $table->enum('attendance_status', ['present', 'absent']);
-
-            $table->dateTime('attendance_time')->nullable();
-
+            $table->timestamp('attendance_time')->nullable();
             $table->timestamps();
         });
     }

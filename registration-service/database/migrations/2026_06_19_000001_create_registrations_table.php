@@ -13,16 +13,13 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('user_id');
-
             $table->unsignedBigInteger('event_id');
-
             $table->enum('status', ['registered', 'cancelled'])->default('registered');
-
-            $table->dateTime('registered_at');
-
+            $table->timestamp('registered_at')->nullable();
             $table->timestamps();
+
+            $table->index(['user_id', 'event_id']);
         });
     }
 

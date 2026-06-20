@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "8b5f3a09-7711-44bb-ba52-4467c6eb230a",
+		"name": "CampusEventHUB - Event Service",
+		"description": "Postman Collection untuk menguji REST API dan GraphQL Event Service.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REST API",
+			"item": [
+				{
+					"name": "Get All Events (Search & Filter)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/events?search=laravel&status=draft&category_id=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "laravel",
+									"description": "Pencarian keyword judul/deskripsi"
+								},
+								{
+									"key": "status",
+									"value": "draft",
+									"description": "draft | published | finished"
+								},
+								{
+									"key": "category_id",
+									"value": "2",
+									"description": "ID Kategori"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event (Valid)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Seminar Nasional AI 2026\",\n    \"description\": \"Seminar mengenai perkembangan AI di masa depan.\",\n    \"location\": \"Gedung Serbaguna Kampus A\",\n    \"start_date\": \"2026-07-20 09:00:00\",\n    \"end_date\": \"2026-07-20 15:00:00\",\n    \"quota\": 100,\n    \"category_id\": 1,\n    \"created_by\": 12\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event (Invalid Validation)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"start_date\": \"2026-07-20 09:00:00\",\n    \"end_date\": \"2026-07-19 15:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/events/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Seminar Nasional AI 2026 - Edisi Terbaru\",\n    \"quota\": 150\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/events/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Event",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/events/1/publish",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"1",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finish Event",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/events/1/finish",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"1",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/events/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GraphQL",
+			"item": [
+				{
+					"name": "Query All Events",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  events {\n    id\n    title\n    status\n    category {\n      id\n      name\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Single Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  event(id: 1) {\n    id\n    title\n    description\n    location\n    quota\n    status\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8002/api",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,31 @@
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Category {
+    id: ID!
+    name: String!
+    events: [Event!]! @hasMany
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Event {
+    id: ID!
+    title: String!
+    description: String!
+    location: String!
+    start_date: DateTime!
+    end_date: DateTime!
+    quota: Int!
+    category: Category! @belongsTo
+    created_by: ID!
+    status: String!
+    created_at: DateTime
+    updated_at: DateTime
+}
+
+type Query {
+    events: [Event!]! @all
+    event(id: ID! @eq): Event @find
+    categories: [Category!]! @all
+    category(id: ID! @eq): Category @find
+}

@@ -12,6 +12,7 @@ services:
 
     networks:
       - registration-network
+      - campus_eventhub_network
 
   nginx:
     image: nginx:latest
@@ -48,21 +49,8 @@ services:
     networks:
       - registration-network
 
-  rabbitmq:
-    image: rabbitmq:3-management
-
-    container_name: registration-service-rabbitmq
-
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-
-    networks:
-      - registration-network
-
 networks:
   registration-network:
+  campus_eventhub_network:
+    external: true
+    name: campus_eventhub_shared_network

@@ -71,7 +71,11 @@ export const registrationService = {
         await fetch(`http://localhost:8003/api/attendances`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ registration_id: regId, status })
+          body: JSON.stringify({
+            registration_id:   regId,
+            attendance_status: status,                    // ✅ nama field sesuai backend
+            attendance_time:   new Date().toISOString(),  // ✅ field wajib yang sebelumnya hilang
+          })
         });
       } catch (err) {
         console.error('Failed to update attendance live', err);
