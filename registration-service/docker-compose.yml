@@ -5,22 +5,22 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
 
-    container_name: event-service-app
+    container_name: registration-service-app
 
     volumes:
       - .:/var/www
 
     networks:
-      - event-network
+      - registration-network
       - campus_eventhub_network
 
   nginx:
     image: nginx:latest
 
-    container_name: event-service-nginx
+    container_name: registration-service-nginx
 
     ports:
-      - "8002:80"
+      - "8003:80"
 
     volumes:
       - .:/var/www
@@ -30,27 +30,27 @@ services:
       - app
 
     networks:
-      - event-network
+      - registration-network
 
   mysql:
     image: mysql:8
 
-    container_name: event-service-mysql
+    container_name: registration-service-mysql
 
     restart: always
 
     environment:
-      MYSQL_DATABASE: campus_eventhub_events
+      MYSQL_DATABASE: campus_eventhub_registrations
       MYSQL_ROOT_PASSWORD: root
 
     ports:
-      - "3308:3306"
+      - "3309:3306"
 
     networks:
-      - event-network
+      - registration-network
 
 networks:
-  event-network:
+  registration-network:
   campus_eventhub_network:
     external: true
     name: campus_eventhub_shared_network

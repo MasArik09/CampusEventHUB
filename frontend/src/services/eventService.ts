@@ -84,7 +84,7 @@ export const eventService = {
 
     if (mode === 'live') {
       try {
-        await fetch(`${EVENT_API_URL}/${id}/finish`, { method: 'POST' }); // Hypothetical finish endpoint
+        await fetch(`${EVENT_API_URL}/${id}/finish`, { method: 'PATCH' });
       } catch (err) {
         console.error('Failed to finish event live', err);
       }
