@@ -13,7 +13,7 @@ Route::delete('/registrations/{id}', [RegistrationController::class, 'destroy'])
 // Attendance Routes (nested di bawah registration)
 Route::get('/registrations/{id}/attendance', [AttendanceController::class, 'show']);
 Route::post('/registrations/{id}/attendance', [AttendanceController::class, 'store']);
-
+Route::post('/registrations/{id}/attendance', [AttendanceController::class, 'store']);
 // Health check
 Route::get('/health', function () {
     return response()->json(['success' => true, 'message' => 'registration-service is healthy']);
