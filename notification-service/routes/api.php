@@ -6,14 +6,18 @@ use Illuminate\Support\Facades\Route;
 
 // Notifications
 Route::get('notifications', [NotificationController::class, 'index']);
+Route::post('notifications', [NotificationController::class, 'store']);
 Route::patch('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 Route::post('notifications/clear', [NotificationController::class, 'clear']);
 
 // Certificates
 Route::get('certificates', [CertificateController::class, 'index']);
+Route::post('certificates/generate', [CertificateController::class, 'generate']);
 Route::get('certificates/verify/{code}', [CertificateController::class, 'verify']);
 
 // Health check
 Route::get('health', function () {
     return response()->json(['success' => true, 'message' => 'notification-service is healthy']);
 });
+
+Route::get('certificates/{id}/download', [CertificateController::class, 'download']);

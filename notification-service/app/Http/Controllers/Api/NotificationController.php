@@ -4,70 +4,64 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    /**
-     * GET /api/notifications?user_id=xxx
-     * Ambil semua notifikasi milik user.
-     */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
-        ]);
+        $userId = $request->query('user_id');
 
-        $notifications = Notification::where('user_id', $request->user_id)
-            ->orderBy('created_at', 'desc')
+        $notifications = Notification::where('user_id', $userId)
+            ->latest()
             ->get();
 
         return response()->json([
             'success' => true,
-            'data'    => $notifications,
+            'data' => $notifications
         ]);
     }
 
-    /**
-     * PATCH /api/notifications/{id}/read
-     * Tandai notifikasi sebagai sudah dibaca.
-     */
-    public function markAsRead(int $id): JsonResponse
+    public function markAsRead($id)
     {
-        $notification = Notification::find($id);
+        $notification = Notification::findOrFail($id);
 
-        if (! $notification) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Notification not found.',
-            ], 404);
-        }
-
-        $notification->update(['is_read' => true]);
+        $notification->update([
+            'is_read' => true
+        ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Notification marked as read.',
-            'data'    => $notification,
+            'message' => 'Notification marked as read'
         ]);
     }
 
-    /**
-     * POST /api/notifications/clear
-     * Hapus semua notifikasi milik user.
-     */
-    public function clear(Request $request): JsonResponse
+    public function clear(Request $request)
     {
-        $request->validate([
+        $userId = $request->user_id;
+
+        Notification::where('user_id', $userId)->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notifications cleared'
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
             'user_id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
-        $deleted = Notification::where('user_id', $request->user_id)->delete();
+        $notification = Notification::create($validated);
 
         return response()->json([
             'success' => true,
-            'message' => "{$deleted} notifications cleared.",
-        ]);
+            'message' => 'Notification created successfully',
+            'data' => $notification
+        ], 201);
     }
 }
