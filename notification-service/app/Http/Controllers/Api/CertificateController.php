@@ -3,51 +3,76 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Certificate;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    /**
-     * GET /api/certificates?user_id=xxx
-     * Ambil semua sertifikat milik user.
-     */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
-        ]);
+        $userId = $request->query('user_id');
 
-        $certificates = Certificate::where('user_id', $request->user_id)
-            ->orderBy('issued_at', 'desc')
+        $certificates = Certificate::where('user_id', $userId)
+            ->latest()
             ->get();
 
         return response()->json([
             'success' => true,
-            'data'    => $certificates,
+            'data' => $certificates
         ]);
     }
 
-    /**
-     * GET /api/certificates/verify/{code}
-     * Verifikasi sertifikat berdasarkan verification_code.
-     */
-    public function verify(string $code): JsonResponse
+    public function verify($code)
     {
-        $certificate = Certificate::where('verification_code', $code)->first();
+        $certificate = Certificate::where(
+            'verification_code',
+            $code
+        )->first();
 
-        if (! $certificate) {
+        if (!$certificate) {
             return response()->json([
                 'success' => false,
-                'message' => 'Certificate not found or invalid verification code.',
+                'message' => 'Certificate not found'
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Certificate is valid.',
-            'data'    => $certificate,
+            'data' => $certificate
         ]);
+    }
+
+    public function generate(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|integer',
+            'event_id' => 'required|integer',
+        ]);
+
+        $certificate = Certificate::create([
+            'user_id' => $validated['user_id'],
+            'event_id' => $validated['event_id'],
+            'certificate_number' => 'CERT-' . now()->format('YmdHis') . '-' . $validated['user_id'],
+            'issued_at' => now(),
+            'verification_code' => strtoupper(bin2hex(random_bytes(8))),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Certificate generated successfully',
+            'data' => $certificate
+        ], 201);
+    }
+
+    public function download($id)
+    {
+        $certificate = Certificate::findOrFail($id);
+
+        $pdf = Pdf::loadView('certificates.template', [
+            'certificate' => $certificate
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('certificate-' . $certificate->certificate_number . '.pdf');
     }
 }

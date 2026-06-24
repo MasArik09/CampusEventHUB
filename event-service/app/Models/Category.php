@@ -10,7 +10,7 @@ class Category extends Model
         'name'
     ];
 
-    public function events()
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Event::class);
     }

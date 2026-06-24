@@ -15,9 +15,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        \App\Models\Notification::create([
+            'user_id' => $user->id,
+            'title' => 'Peringatan Event',
+            'message' => 'Event Workshop UI/UX akan segera dimulai.',
+            'is_read' => false,
         ]);
     }
 }
