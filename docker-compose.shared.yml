@@ -32,6 +32,32 @@ services:
     networks:
       - campus_eventhub_shared_network
 
+  hasura-postgres:
+    image: postgres:15
+    container_name: campus_eventhub_hasura_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+    networks:
+      - campus_eventhub_shared_network
+
+  hasura-graphql-engine:
+    image: hasura/graphql-engine:v2.33.0
+    container_name: campus_eventhub_hasura
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hasura-postgres
+    restart: unless-stopped
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@hasura-postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+    networks:
+      - campus_eventhub_shared_network
+
 networks:
   campus_eventhub_shared_network:
     driver: bridge

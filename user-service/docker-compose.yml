@@ -14,53 +14,17 @@ services:
     env_file:
       - .env.docker
     environment:
-      - DB_HOST=mysql-user
-      - DB_PORT=3306
-      - RABBITMQ_HOST=rabbitmq
-    depends_on:
-      mysql-user:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_started
-    networks:
-      - campus_eventhub_network
-
-  mysql-user:
-    image: mysql:8.0
-    container_name: user-service-mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: campus_eventhub_users
-      MYSQL_ROOT_PASSWORD: secret
-    ports:
-      - "3307:3306"
-    volumes:
-      - user_service_mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-psecret"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    networks:
-      - campus_eventhub_network
-
-  # NOTE: kalau RabbitMQ sudah dijalankan sebagai shared infrastructure
-  # (dipakai bareng event-service, registration-service, notification-service),
-  # hapus service ini dan arahkan RABBITMQ_HOST ke container shared tersebut,
-  # gabungkan networks-nya juga (lihat ARCHITECTURE.md - Shared Infrastructure).
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: campus_eventhub_rabbitmq
-    restart: unless-stopped
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+      - DB_CONNECTION=pgsql
+      - DB_HOST=campus_eventhub_hasura_postgres
+      - DB_PORT=5432
+      - RABBITMQ_HOST=campus_eventhub_rabbitmq
     networks:
       - campus_eventhub_network
 
 networks:
   campus_eventhub_network:
-    driver: bridge
+    external: true
+    name: campus_eventhub_shared_network
 
 volumes:
   user_service_mysql_data:
