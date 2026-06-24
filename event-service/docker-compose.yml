@@ -31,23 +31,7 @@ services:
 
     networks:
       - event-network
-
-  mysql:
-    image: mysql:8
-
-    container_name: event-service-mysql
-
-    restart: always
-
-    environment:
-      MYSQL_DATABASE: campus_eventhub_events
-      MYSQL_ROOT_PASSWORD: root
-
-    ports:
-      - "3308:3306"
-
-    networks:
-      - event-network
+      - campus_eventhub_network
 
 networks:
   event-network:

@@ -1,12 +1,14 @@
-FROM php:8.3-fpm
+FROM php:8.3-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     git \
     unzip \
     zip \
     curl \
     libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    postgresql-dev \
+    linux-headers \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip sockets pcntl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

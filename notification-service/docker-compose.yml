@@ -53,23 +53,7 @@ services:
 
     networks:
       - notification-network
-
-  mysql:
-    image: mysql:8
-
-    container_name: notification-service-mysql
-
-    restart: always
-
-    environment:
-      MYSQL_DATABASE: campus_eventhub_notifications
-      MYSQL_ROOT_PASSWORD: root
-
-    ports:
-      - "3310:3306"
-
-    networks:
-      - notification-network
+      - campus_eventhub_network
 
 networks:
   notification-network:

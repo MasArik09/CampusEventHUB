@@ -7,9 +7,10 @@ RUN apk add --no-cache \
     zip \
     libzip-dev \
     oniguruma-dev \
-    mysql-client \
+    postgresql-client \
+    postgresql-dev \
     linux-headers \
-    && docker-php-ext-install pdo pdo_mysql zip sockets pcntl
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip sockets pcntl
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

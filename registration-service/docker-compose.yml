@@ -31,23 +31,7 @@ services:
 
     networks:
       - registration-network
-
-  mysql:
-    image: mysql:8
-
-    container_name: registration-service-mysql
-
-    restart: always
-
-    environment:
-      MYSQL_DATABASE: campus_eventhub_registrations
-      MYSQL_ROOT_PASSWORD: root
-
-    ports:
-      - "3309:3306"
-
-    networks:
-      - registration-network
+      - campus_eventhub_network
 
 networks:
   registration-network:

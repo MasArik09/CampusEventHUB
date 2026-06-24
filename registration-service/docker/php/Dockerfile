@@ -1,13 +1,16 @@
-FROM php:8.3-fpm
+FROM php:8.3-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     git \
     unzip \
     zip \
     curl \
-    librabbitmq-dev \
     libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip sockets \
+    postgresql-dev \
+    rabbitmq-c-dev \
+    linux-headers \
+    $PHPIZE_DEPS \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip sockets pcntl \
     && pecl install amqp \
     && docker-php-ext-enable amqp
 
